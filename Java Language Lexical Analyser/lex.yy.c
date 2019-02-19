@@ -597,18 +597,21 @@ int yy_flex_debug = 0;
 char *yytext;
 #line 1 "analyser.l"
 #line 2 "analyser.l"
+ // Definition section of lexical analyser
 #include<stdio.h>
 #include<string.h>
 char arr[100][100];
 int indx = 0, size = 0, val = 0;
+ // Function to record and track identifiers encountered
 int ispresent(char* s){
 	for(int i = 0;i<size;i++) if(strcmp(s,arr[i])==0)return i;
 	return -1;
 }
-#line 609 "lex.yy.c"
-#line 20 "analyser.l"
+#line 611 "lex.yy.c"
+#line 14 "analyser.l"
+ // Regex for keywords,single and multiline comments, operators, literals, constants, identifiers, separators and delimiters
   // System|out|print([ ]?|[f]|[l][n])
-#line 612 "lex.yy.c"
+#line 615 "lex.yy.c"
 
 #define INITIAL 0
 
@@ -825,9 +828,10 @@ YY_DECL
 		}
 
 	{
-#line 21 "analyser.l"
+#line 26 "analyser.l"
 
-#line 831 "lex.yy.c"
+ // Rules section for lexical analyser
+#line 835 "lex.yy.c"
 
 	while ( /*CONSTCOND*/1 )		/* loops until end-of-file is reached */
 		{
@@ -887,59 +891,57 @@ do_action:	/* This label is used only to access EOF actions. */
 case 1:
 /* rule 1 can match eol */
 YY_RULE_SETUP
-#line 22 "analyser.l"
+#line 28 "analyser.l"
 
 	YY_BREAK
 case 2:
 YY_RULE_SETUP
-#line 23 "analyser.l"
+#line 29 "analyser.l"
 {printf("[Keyword]",yytext);}
 	YY_BREAK
 case 3:
 YY_RULE_SETUP
-#line 24 "analyser.l"
+#line 30 "analyser.l"
 {printf("[Operator]",yytext);}
 	YY_BREAK
 case 4:
 YY_RULE_SETUP
-#line 25 "analyser.l"
+#line 31 "analyser.l"
 {printf("[Separator]",yytext);}
 	YY_BREAK
 case 5:
 YY_RULE_SETUP
-#line 26 "analyser.l"
+#line 32 "analyser.l"
 {printf("[Delimiter]",yytext);}
 	YY_BREAK
 case 6:
 YY_RULE_SETUP
-#line 27 "analyser.l"
+#line 33 "analyser.l"
 {
-								val = ispresent(yytext);
-						 		if(val!=-1) printf("[ID%d]",val+1);
-						 		else{
-						 			strncpy(arr[indx],yytext,100);
-						 			printf("[ID%d]",indx+1);
-						 			indx++;size++;
-						 		}
-					 		}
+				val = ispresent(yytext);
+				if(val!=-1) printf("[ID%d]",val+1);
+				else{
+					strncpy(arr[indx],yytext,100);
+		 			printf("[ID%d]",indx+1);							 			indx++;size++;						 				}
+		 	}
 	YY_BREAK
 case 7:
 /* rule 7 can match eol */
 YY_RULE_SETUP
-#line 36 "analyser.l"
+#line 40 "analyser.l"
 {printf("[String Literal]",yytext);}
 	YY_BREAK
 case 8:
 YY_RULE_SETUP
-#line 37 "analyser.l"
+#line 41 "analyser.l"
 {printf("[Numeric Constant]",yytext);}
 	YY_BREAK
 case 9:
 YY_RULE_SETUP
-#line 38 "analyser.l"
+#line 42 "analyser.l"
 ECHO;
 	YY_BREAK
-#line 943 "lex.yy.c"
+#line 945 "lex.yy.c"
 case YY_STATE_EOF(INITIAL):
 	yyterminate();
 
@@ -1944,8 +1946,9 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 38 "analyser.l"
+#line 42 "analyser.l"
 
+ // User code section
 void main() {
 	yyin=fopen("main.java","r");
 	yylex();
@@ -1953,4 +1956,5 @@ void main() {
 int yywrap(){
 	return 1;
 }
+
 
