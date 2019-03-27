@@ -7,4 +7,3 @@ def is_palindrome(string):
 		if string[i] != string[length-i-1]:
 			return False
 	return True
-	

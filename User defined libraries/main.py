@@ -1,23 +1,40 @@
-from palindrome_reb import is_palindrome
-from substring_reb import is_substring
+from palindrome_reb import get_df
+# from substring_reb import is_substring
 
-print("\nPress 1 for palindrome check\nPress 2 for substring check\nPress 3 to exit")
-n = input()
+import numpy as np
+from chartjs.views.lines import BaseLineChartView
+from . import db
 
-while n!= 3:
 
-	if n==1:
-		print("Enter string to be checked")
-		string = raw_input()
-		print(is_palindrome(string))
-		
-	if n==2:
-		print("Enter pattern to be searched")
-		string1 = raw_input()
-		print("Enter string in which pattern is to be detected")
-		string2 = raw_input()
-		print(is_substring(string1,string2))
-	
-	print("\nPress 1 for palindrome check\nPress 2 for substring check\nPress 3 to exit")
-	n = input()
-	
+
+class LineChartJSONView(BaseLineChartView):
+	def get_labels(self):
+		return db.ngos
+
+	def get_providers(self):
+		return db.category['NGO']
+
+	def get_data(self):
+		data = []
+
+
+		df = db.get_df()
+		df = df[df['recipient_type'] == 'NGO']
+
+		for waste in db.category['NGO']:
+			dict_waste = {db.ngos,[0 for _ in db.ngos]}
+			df_waste = df[df['type'] == waste]
+
+			for ngo in db.ngos:
+				dict_waste[ngo] = df_waste[df_waste['recipient_name'] == ngo]['quantity'].sum()
+			data.append(list(dict_waste.values()))
+
+		print(data)
+
+		return [list(np.random.rand(7,)),
+				list(np.random.rand(7,)),
+				list(np.random.rand(7,)),]
+
+def json1():
+	line_chart_json = LineChartJSONView.as_view()
+	return line_chart_json
